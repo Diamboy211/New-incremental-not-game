@@ -17,3 +17,9 @@ for(let i = 0; i < 4; i++) {
   }
   gens.push(aGen)
 }
+
+function updateGUI() {
+  document.getElementById(
+  for(let i = 0; i < 4; i++) {
+    let g = gens[i]
+    document.getElementByID(“gen” + (i + 1)).innerHTML = “Amount : ” + g.amount + “<br bought: >” + g.bought + “<br mult: >” + g.mult + “x<br>cost: ” + g.cost
