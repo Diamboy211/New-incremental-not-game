@@ -1,1 +1,1 @@
-money = new Decimal(10)
+var money = new Decimal(10)
