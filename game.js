@@ -4,7 +4,7 @@ var lastUpdate = Date.now()
 
 function getMoney() {
   money = money + 1
-  document.getElementById(“clicks”).textContent = “Money : ” + money
+  document.getElementById(“money”).textContent = “Money : ” + money
 }
 
 var gens = []
