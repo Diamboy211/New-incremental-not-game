@@ -1,5 +1,5 @@
-import "Math"
-var money = 10
+import "Math";
+var money = 10;
 var lastUpdate = Date.now()
 
 function getMoney() {
@@ -40,6 +40,6 @@ function mainLoop() {
   lastUpdate = Date.now()
 }
 
-setInterval(mainLoop, 50)
+setInterval(mainLoop, 50);
 
 updateGUI()
