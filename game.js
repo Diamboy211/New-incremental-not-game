@@ -1,5 +1,5 @@
-import Math
-var money = 10
+import "Math";
+var money = 10;
 var lastUpdate = Date.now()
 
 function getMoney() {
