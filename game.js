@@ -24,6 +24,8 @@ function updateGUI() {
   for(let i = 0; i < 4; i++) {
     let g = gens[i];
     document.getElementByID(“gen” + (i + 1)).innerHTML = “Amount : ” + g.amount + “<br bought: >” + g.bought + “<br mult: >” + g.mult + “x<br>cost: ” + g.cost
+  }
+}
 
 function productionLoop(diff) {
   money += gens[0].amount * gens[0].mult * diff;
