@@ -19,7 +19,7 @@ for(let i = 0; i < 4; i++) {
 }
 
 function updateGUI() {
-  document.getElementById(“money”).textContent = “money = ” + money;
+  document.getElementById(“money”).textContent = “Money = ” + money;
   for(let i = 0; i < 4; i++) {
     let g = gens[i];
     document.getElementByID(“gen” + (i + 1)).innerHTML = “Amount : ” + g.amount + “<br>bought: ” + g.bought + “<br>mult: > + g.mult + “x<br>cost: ” + g.cost
