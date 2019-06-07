@@ -1,4 +1,3 @@
-import "Math";
 var money = 10;
 var lastUpdate = Date.now()
 
@@ -12,8 +11,8 @@ var gens = []
 for(let i = 0; i < 4; i++) {
   let aGen = {
     cost: Math.pow(10, Math.pow(i, 2));
-    bought: 0;
-    amount: 0;
+    bought: 0,
+    amount: 0,
     mult: 1
   }
   gens.push(aGen)
@@ -23,7 +22,7 @@ function updateGUI() {
   document.getElementById(“money”).textContent = “money = ” + money;
   for(let i = 0; i < 4; i++) {
     let g = gens[i];
-    document.getElementByID(“gen” + (i + 1)).innerHTML = “Amount : ” + g.amount + “<br bought: >” + g.bought + “<br mult: >” + g.mult + “x<br>cost: ” + g.cost
+    document.getElementByID(“gen” + (i + 1)).innerHTML = “Amount : ” + g.amount + “<br>bought: ” + g.bought + “<br>mult: > + g.mult + “x<br>cost: ” + g.cost
   }
 }
 
