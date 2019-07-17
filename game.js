@@ -17,7 +17,7 @@ function format(number) {
   let e = Math.floor(n.log10())
   let m = n.div(new Decimal(10).pow(e))
   if ((e >= 3 || e <= -2) && n.gt(new Decimal(0))) {
-    return m.toFixed(1) + "e" + e
+    return m.toFixed(2) + "e" + e
   } else {
     return number.toFixed(2)
   }
