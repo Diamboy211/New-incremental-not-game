@@ -19,7 +19,7 @@ function format(number) {
   if ((e >= 3 || e <= -2) && n.gt(new Decimal(0))) {
     return m.toFixed(1) + "e" + e
   } else {
-    return number.toFixed(1)
+    return number.toFixed(2)
   }
 }
 
