@@ -4,12 +4,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="styles.css">
+  <script src="break_infinity.js"></script>
   <title>ee</title>
 </head>
 <body>
   <div id="money">Money : 0</div>
-  <button onclick="maxAll(0)">Max top to bottom</button>
-  <button onclick="maxAll(1)">Max all bottoms-up</button>
+  <div id="infinity"></div>
+  <div id="infinities"></div>
+  <button id="max1" onclick="maxAll(0)">Max top to bottom</button>
+  <p> </p>
+  <button id="max2" onclick="maxAll(1)">Max all bottoms-up</button>
+  <button onclick="auto = true">auto</button>
+  <button onclick="auto = false">not auto</button>
+  <div id="tickspeed" onclick="buyTickspeed()"></div>
   <div class="genContainer">
     <div class="gen" id="g1" onclick="buyGens(1)"></div>
     <div class="gen" id="g2" onclick="buyGens(2)"></div>

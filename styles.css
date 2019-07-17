@@ -20,6 +20,57 @@
     color: #ff00ff;
 }
 
+#tickspeed {
+    color: #ff00ff;
+    border: 2px solid #ff5555;
+    background-color: #5555ff;
+    width: 300px;
+    text-align: center;
+    font-size: 24px;
+    padding: 24px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+    margin: auto;
+}
+
+#max1 {
+    padding: 24px;
+    background-color: #115211;
+    color: #000000;
+    font-size: 24px;
+    margin: auto;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+#max2 {
+    padding: 24px;
+    background-color: #115211;
+    color: #000000;
+    font-size: 24px;
+    margin: auto;
+    cursor: pointer;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+
+#max1:hover {
+    background-color: #eeadee;
+    color: #ffffff
+}
+
+#max2:hover {
+    background-color: #eeadee;
+    color: #ffffff
+}
+
+#tickspeed:hover {
+    background-color: #aaaa00;
+    color: #00ff00;
+}
+
 .genContainer {
     display: flex;
     width: 1200px;
@@ -27,7 +78,7 @@
     margin: auto;
 }
 
-#money {
+#money,#infinities,#infinity {
     margin: 40px;
     color: red;
     text-align: center;
