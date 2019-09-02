@@ -20,7 +20,7 @@
     color: #ff00ff;
 }
 
-#tickspeed,#the16thdimensiontickspeed {
+.tick {
     display: flex;
     color: #ff00ff;
     border: 2px solid #ff5555;
