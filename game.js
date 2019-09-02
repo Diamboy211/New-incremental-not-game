@@ -133,7 +133,7 @@ function productionLoop(diff) {
   let ddiff = new Decimal(diff)
   money = money.add(gens[0].amount.mul(gens[0].mult.mul(ddiff.div(tick.tickspeed).mul(gal.power))));
   for(let i = 1; i < maxGenerators; i++) {
-    gens[i - 1].amount = gens[i-1].amount.add(gens[i].amount.mul(gens[i].mult.mul(diff.div(tick.tickspeed).mul(gal.power)))
+    gens[i - 1].amount = gens[i-1].amount.add(gens[i].amount.mul(gens[i].mult.mul(diff.div(tick.tickspeed).mul(gal.power))))
   }
 }
 function mainLoop() {
