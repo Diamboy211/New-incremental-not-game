@@ -20,7 +20,7 @@
     color: #ff00ff;
 }
 
-#tickspeed,#16thdimensiontickspeed {
+#tickspeed,#the16thdimensiontickspeed {
     display: flex;
     color: #ff00ff;
     border: 2px solid #ff5555;
@@ -67,7 +67,7 @@
     color: #ffffff
 }
 
-#tickspeed:hover {
+#tickspeed:hover,#the16thdimensiontickspeed {
     background-color: #aaaa00;
     color: #00ff00;
 }
