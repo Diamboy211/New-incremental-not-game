@@ -21,6 +21,7 @@
 }
 
 #tickspeed,#16thdimensiontickspeed {
+    display: flex;
     color: #ff00ff;
     border: 2px solid #ff5555;
     background-color: #5555ff;
