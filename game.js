@@ -33,7 +33,7 @@ function buyTickspeed() {
   if (money.gte(tick.cost)) {
     money = money.sub(tick.cost)
     tick.cost = tick.cost.mul(new Decimal(10))
-    tick.tickspeed = tick.tickspeed.mul(tick.tickspeedMultiplier)
+    tick.tickspeed = tick.tickspeed.mul(tick.tickspeedMultiplier.mul(gal.power))
   }
 }
 
@@ -131,9 +131,9 @@ function updateGUI() {
 
 function productionLoop(diff) {
   let ddiff = new Decimal(diff)
-  money = money.add(gens[0].amount.mul(gens[0].mult.mul(ddiff.div(tick.tickspeed).mul(gal.power))));
+  money = money.add(gens[0].amount.mul(gens[0].mult.mul(ddiff.div(tick.tickspeed))));
   for(let i = 1; i < maxGenerators; i++) {
-    gens[i - 1].amount = gens[i-1].amount.add(gens[i].amount.mul(gens[i].mult.mul(diff.div(tick.tickspeed).mul(gal.power))))
+    gens[i - 1].amount = gens[i-1].amount.add(gens[i].amount.mul(gens[i].mult.mul(diff.div(tick.tickspeed))))
   }
 }
 function mainLoop() {
