@@ -122,7 +122,7 @@ function updateGUI() {
   document.getElementById("money").textContent = "Money = " + format(money);
   document.getElementById("infinity").textContent = "Infinity = " + format(infin);
   document.getElementById("tickspeed").innerHTML = "Decrease tickspeed by " + tick.tickspeedMultiplier.toFixed(1) + "<br>Tickspeed : " + format(tick.tickspeed) + "<br>Cost : " + format(tick.cost);
-  document.getElementById("the16thdimensiontickspeed").innerHTML = "Make a 16th dimension galaxy<br>There are currently " + gal.galaxies + " 16th dimension galaxies<br>They are boosting the effect of tickspeed by " + gal.power + " x<br>Sacrifice requirement: " + gal.cost + " 16th dimensions"
+  document.getElementById("the16thdimensiontickspeed").innerHTML = "Make a 16th dimension galaxy<br>There are currently " + gal.galaxies + " 16th dimension galaxies<br>They are boosting the effect of tickspeed by " + format(gal.power) + " x<br>Sacrifice requirement: " + gal.cost + " 16th dimensions"
   for (let i = 0; i < maxGenerators; i++) {
     let g = gens[i];
     document.getElementById("g" + (i + 1)).innerHTML = "Generator " + (i+1) + "<br>Amount : " + format(g.amount) + "<br>bought: " + g.bought + "<br>mult: " + format(g.mult) + "x<br>cost: " + format(g.cost)
