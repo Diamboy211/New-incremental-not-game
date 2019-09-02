@@ -67,7 +67,7 @@
     color: #ffffff
 }
 
-#tickspeed:hover,#the16thdimensiontickspeed {
+#tickspeed:hover,#the16thdimensiontickspeed:hover {
     background-color: #aaaa00;
     color: #00ff00;
 }
