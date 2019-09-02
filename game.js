@@ -1,7 +1,7 @@
 var money = new Decimal(1);
 var costMultiplier = []
 var lastUpdate = new Decimal(Date.now())
-var maxGenerators = 16
+const maxGenerators = 16
 var gens = []
 var infin = new Decimal(2).pow(1024)
 var infinities = 0
@@ -10,6 +10,12 @@ var tick = {
   tickspeed: new Decimal(1),
   tickspeedMultiplier: new Decimal(0.95),
   cost: new Decimal(1000)
+}
+var gal = {
+  galaxies: 0,
+  cost: new Decimal(14),
+  power: new Decimal(1),
+  powerMult: new Decimal(1.3)
 }
 
 function format(number) {
@@ -34,6 +40,23 @@ function buyTickspeed() {
 function maxTickSpeed() {
   while (money.gte(tick.cost)) {
     buyTickspeed()
+  }
+}
+
+function galaxyReset() {
+  if (gens[15].amount.gte(gal.cost)) {
+    money = new Decimal(10)
+    tick.tickspeed = new Decimal(1)
+    tick.cost = new Decimal(1000)
+    for (let i = 0; i < maxGenerators; i++) {
+      let d = new Decimal(i)
+      gens[i].cost = new Decimal(10).pow(d.pow(new Decimal(2)))
+      gens[i].bought = 0
+      gens[i].amount = new Decimal(0)
+      gens[i].mult = new Decimal(1)
+    }
+    gal.galaxies++
+    gal.power = gal.powerMult.pow(gal.galaxies)
   }
 }
 
@@ -107,9 +130,9 @@ function updateGUI() {
 
 function productionLoop(diff) {
   let ddiff = new Decimal(diff)
-  money = money.add(gens[0].amount.mul(gens[0].mult.mul(ddiff.div(tick.tickspeed))));
+  money = money.add(gens[0].amount.mul(gens[0].mult.mul(ddiff.div(tick.tickspeed).mul(gal.power))));
   for(let i = 1; i < maxGenerators; i++) {
-    gens[i - 1].amount = gens[i-1].amount.add(gens[i].amount.mul(gens[i].mult.mul(diff.div(tick.tickspeed))))
+    gens[i - 1].amount = gens[i-1].amount.add(gens[i].amount.mul(gens[i].mult.mul(diff.div(tick.tickspeed).mul(gal.power)))
   }
 }
 function mainLoop() {
