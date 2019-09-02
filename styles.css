@@ -22,6 +22,7 @@
 
 .tick {
     display: flex;
+    flex-wrap: wrap;
     color: #ff00ff;
     border: 2px solid #ff5555;
     background-color: #5555ff;
