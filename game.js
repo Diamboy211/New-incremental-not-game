@@ -33,7 +33,7 @@ function buyTickspeed() {
   if (money.gte(tick.cost)) {
     money = money.sub(tick.cost)
     tick.cost = tick.cost.mul(new Decimal(10))
-    tick.tickspeed = tick.tickspeed.mul(tick.tickspeedMultiplier.mul(gal.power))
+    tick.tickspeed = tick.tickspeed.mul(tick.tickspeedMultiplier.div(gal.power))
   }
 }
 
