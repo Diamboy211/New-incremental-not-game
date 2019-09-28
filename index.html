@@ -8,14 +8,15 @@
   <title>ee</title>
 </head>
 <body>
+  <div id="a"></div>
   <div id="money">Money : 0</div>
   <div id="infinity"></div>
   <div id="infinities"></div>
   <button id="max1" onclick="maxAll(0)">Max top to bottom</button>
   <p> </p>
   <button id="max2" onclick="maxAll(1)">Max all bottoms-up</button>
-  <button onclick="auto = true">auto</button>
-  <button onclick="auto = false">not auto</button>
+  <button onclick="player.auto = true">auto</button>
+  <button onclick="player.auto = false">not auto</button>
   <div id="tickspeed" onclick="buyTickspeed()"></div>
   <div class="genContainer">
     <div class="gen" id="g1" onclick="buyGens(1)"></div>
@@ -26,14 +27,16 @@
     <div class="gen" id="g6" onclick="buyGens(6)"></div>
     <div class="gen" id="g7" onclick="buyGens(7)"></div>
     <div class="gen" id="g8" onclick="buyGens(8)"></div>
-    <div class="gen" id="g9" onclick="buyGens(1)"></div>
-    <div class="gen" id="g10" onclick="buyGens(2)"></div>
-    <div class="gen" id="g11" onclick="buyGens(3)"></div>
-    <div class="gen" id="g12" onclick="buyGens(4)"></div>
-    <div class="gen" id="g13" onclick="buyGens(5)"></div>
-    <div class="gen" id="g14" onclick="buyGens(6)"></div>
-    <div class="gen" id="g15" onclick="buyGens(7)"></div>
-    <div class="gen" id="g16" onclick="buyGens(8)"></div>
+    <div class="gen" id="g9" onclick="buyGens(9)"></div>
+    <div class="gen" id="g10" onclick="buyGens(10)"></div>
+    <div class="gen" id="g11" onclick="buyGens(11)"></div>
+    <div class="gen" id="g12" onclick="buyGens(12)"></div>
+    <div class="gen" id="g13" onclick="buyGens(13)"></div>
+    <div class="gen" id="g14" onclick="buyGens(14)"></div>
+    <div class="gen" id="g15" onclick="buyGens(15)"></div>
+    <div class="gen" id="g16" onclick="buyGens(16)"></div>
+    <div class="gen" id="buycostscalingspeed" onclick="buyCostScalingUpgrade(0)"></div>
+    <div class="gen" id="buycostscalingstart" onclick="buyCostScalingUpgrade(1)"></div>
   </div>
 </body>
 <script src="game.js"></script>

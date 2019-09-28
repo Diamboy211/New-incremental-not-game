@@ -1,15 +1,88 @@
-var money = new Decimal(1);
-var costMultiplier = []
-var lastUpdate = new Decimal(Date.now())
-var maxGenerators = 16
-var gens = []
-var infin = new Decimal(2).pow(1024)
-var infinities = 0
-var auto = false
-var tick = {
+const maxGenerators = 16
+var player = {
+money: new Decimal(1),
+costScaling: {
+  start: new Decimal(75),
+  speed: new Decimal(2),
+  speedCost: new Decimal(1e125),
+  startCost: new Decimal(1e50),
+  costMult: new Decimal(1e75)
+},
+costMultiplier: [],
+lastUpdate: new Decimal(Date.now()),
+gens: [],
+infin: new Decimal(2).pow(1024),
+infinities: 0,
+auto: false,
+tick: {
   tickspeed: new Decimal(1),
   tickspeedMultiplier: new Decimal(0.95),
   cost: new Decimal(1000)
+}
+}
+
+function decimalfy() {
+    player.money = new Decimal(player.money)
+    player.costScaling = {
+      start: new Decimal(player.costScaling.start),
+      speed: new Decimal(player.costScaling.speed),
+      speedCost: new Decimal(player.costScaling.speedCost),
+      startCost: new Decimal(player.costScaling.startCost),
+      costMult: new Decimal(player.costScaling.costMult)
+    },
+    player.costMultiplier = new Decimal(player.costMultiplier)
+    player.lastUpdate = new Decimal(player.lastUpdate)
+    for (let i = 0; i < maxGenerators; i++) {
+      player.gens[i] = {
+        cost: new Decimal(player.gens[i].cost),
+        bought: player.gens[i].bought,
+        amount: new Decimal(player.gens[i].amount),
+        mult: new Decimal(player.gens[i].mult)
+      }
+    }
+    player.infin = new Decimal(player.infin)
+    player.infinities = new Decimal(player.infinities)
+    player.auto = player.auto
+    player.tick = {
+      tickspeed: new Decimal(player.tick.tickspeed),
+      tickspeedMultiplier: new Decimal(player.tick.tickspeedMultiplier),
+      cost: new Decimal(player.tick.cost)
+    }
+}
+
+function save() {
+  let p = JSON.stringify(player)
+  localStorage.setItem("ee-game", p)
+}
+
+function load() {
+  let p = JSON.parse(localStorage.getItem("ee-game"))
+  if (p = null) {
+    player = {
+      money: new Decimal(1),
+      costScaling: {
+        start: new Decimal(75),
+        speed: new Decimal(2),
+        speedCost: new Decimal(1e125),
+        startCost: new Decimal(1e50),
+        costMult: new Decimal(1e75)
+      },
+      costMultiplier: [],
+      lastUpdate: new Decimal(Date.now()),
+      gens: [],
+      infin: new Decimal(2).pow(1024),
+      infinities: 0,
+      auto: false,
+      tick: {
+        tickspeed: new Decimal(1),
+        tickspeedMultiplier: new Decimal(0.95),
+        cost: new Decimal(1000)
+      }
+      }
+  } else {
+    player = p
+    decimalfy()
+  }
 }
 
 function format(number) {
@@ -17,48 +90,52 @@ function format(number) {
   let e = Math.floor(n.log10())
   let m = n.div(new Decimal(10).pow(e))
   if ((e >= 3 || e <= -2) && n.gt(new Decimal(0))) {
-    return m.toFixed(2) + "e" + e
+    return m.toFixed(1) + "e" + e
   } else {
-    return number.toFixed(2)
+    return n.toFixed(1)
   }
 }
 
 function buyTickspeed() {
-  if (money.gte(tick.cost)) {
-    money = money.sub(tick.cost)
-    tick.cost = tick.cost.mul(new Decimal(10))
-    tick.tickspeed = tick.tickspeed.mul(tick.tickspeedMultiplier)
+  if (player.money.gte(player.tick.cost)) {
+    player.money = player.money.sub(player.tick.cost)
+    player.tick.cost = player.tick.cost.mul(new Decimal(10))
+    player.tick.tickspeed = player.tick.tickspeed.mul(player.tick.tickspeedMultiplier)
   }
 }
 
 function maxTickSpeed() {
-  while (money.gte(tick.cost)) {
+  while (player.money.gte(player.tick.cost)) {
     buyTickspeed()
   }
 }
 
 function infinityReset() {
-  money = new Decimal(10)
-  tick.tickspeed = new Decimal(1)
-  tick.cost = new Decimal(1000)
+  player.money = new Decimal(10)
+  player.tick.tickspeed = new Decimal(1)
+  player.tick.cost = new Decimal(1000)
+  player.costScaling.speed = player.costScaling.speed.mul(4)
+  player.costScaling.start = player.costScaling.start.sub(80)
+  player.costScaling.speedCost = new Decimal(1e125)
+  player.costScaling.startCost = new Decimal(1e50)
   for (let i = 0; i < maxGenerators; i++) {
     let d = new Decimal(i)
-    gens[i].cost = new Decimal(10).pow(d.pow(new Decimal(2)))
-    gens[i].bought = 0
-    gens[i].amount = new Decimal(0)
-    gens[i].mult = new Decimal(1)
+    player.gens[i].cost = new Decimal(10).pow(d.pow(new Decimal(2)))
+    player.gens[i].bought = 0
+    player.gens[i].amount = new Decimal(0)
+    player.gens[i].mult = new Decimal(1)
   }
-  infinities += infin.log10() / new Decimal(2).pow(1024).log10()
-  infin = new Decimal(2).pow(1024+(infinities*256))
+  player.infinities += Math.floor(Math.max(Math.pow(player.infin.log10() / new Decimal(2).pow(1024).log10(), 0.5), 1))
+  player.infin = new Decimal(2).pow(1024+(player.infinities*256))
 }
 
 function buyGens(i) {
-  if (money.gte(gens[i-1].cost)) {
-    money = money.sub(gens[i-1].cost)
-    gens[i-1].cost = gens[i-1].cost.mul(costMultiplier[i-1])
-    gens[i-1].bought++
-    gens[i-1].amount = gens[i-1].amount.add(new Decimal(1))
-    gens[i-1].mult = gens[i-1].mult.mul(new Decimal(1.1))
+  if (player.money.gte(player.gens[i-1].cost)) {
+    player.money = player.money.sub(player.gens[i-1].cost)
+    player.gens[i-1].cost = player.gens[i-1].cost.mul(player.costMultiplier[i-1])
+    player.gens[i-1].bought++
+    player.gens[i-1].amount = player.gens[i-1].amount.add(new Decimal(1))
+    player.gens[i-1].mult = player.gens[i-1].mult.mul(new Decimal(1.1))
   }
 }
 
@@ -70,12 +147,12 @@ for (let i = 0; i < maxGenerators; i++) {
     amount: new Decimal(0),
     mult: new Decimal(1)
   }
-  gens.push(aGen)
-  costMultiplier.push(new Decimal(2))
+  player.gens.push(aGen)
+  player.costMultiplier.push(new Decimal(2))
 }
 
 function maxAllGenerator(i) {
-  while (money.gte(gens[i-1].cost)) {
+  while (player.money.gte(player.gens[i-1].cost)) {
     buyGens(i)
   }
 }
@@ -94,47 +171,72 @@ function maxAll(m) {
   }
 }
 
+function costMultUpdate() {
+    document.getElementById("a").textContent = format(player.costMultiplier[0]) + ", " + format(player.costMultiplier[1]) + ", " + format(player.costMultiplier[2]) + ", " + format(player.costMultiplier[3]) + ", " + format(player.costMultiplier[4]) + ", " + format(player.costMultiplier[5]) + ", " + format(player.costMultiplier[6]) + ", " + format(player.costMultiplier[7]) + ", " + format(player.costMultiplier[8]) + ", " + format(player.costMultiplier[9]) + ", " + format(player.costMultiplier[10]) + ", " + format(player.costMultiplier[11]) + ", " + format(player.costMultiplier[12]) + ", " + format(player.costMultiplier[13]) + ", " + format(player.costMultiplier[14]) + ", " + format(player.costMultiplier[15])
+}
+
+function buyCostScalingUpgrade(m) {
+  //0 = speed 1 = start
+  if (m === 0) {
+    if (player.money.gte(player.costScaling.speedCost)) {
+      player.money = player.money.sub(player.costScaling.speedCost)
+      player.costScaling.speed = player.costScaling.speed.mul(2)
+      player.costScaling.speedCost = player.costScaling.speedCost.mul(player.costScaling.costMult)
+    }
+  } else {
+    if (player.money.gte(player.costScaling.startCost)) {
+      player.money = player.money.sub(player.costScaling.startCost)
+      player.costScaling.start = player.costScaling.start.add(new Decimal(40))
+      player.costScaling.startCost = player.costScaling.startCost.mul(player.costScaling.costMult)
+    }
+  }
+}
 
 function updateGUI() {
-  document.getElementById("money").textContent = "Money = " + format(money);
-  document.getElementById("infinity").textContent = "Infinity = " + format(infin);
+  costMultUpdate()
+  document.getElementById("buycostscalingspeed").innerHTML = "Cost scales by 1 per " + format(player.costScaling.speed) + " bought<br>" + "Cost: " + format(player.costScaling.speedCost)
+  document.getElementById("buycostscalingstart").innerHTML = "Cost scaling starts at: " + format(player.costScaling.start) + " bought generator<br>" + "Cost: " + format(player.costScaling.startCost)
+  document.getElementById("money").textContent = "Money = " + format(player.money);
+  document.getElementById("infinity").textContent = "Infinity = " + format(player.infino);
   for (let i = 0; i < maxGenerators; i++) {
-    let g = gens[i];
-    document.getElementById("tickspeed").innerHTML = "Decrease tickspeed by " + tick.tickspeedMultiplier.toFixed(1) + "<br>Tickspeed : " + format(tick.tickspeed) + "<br>Cost : " + format(tick.cost)
+    let g = player.gens[i];
+    document.getElementById("tickspeed").innerHTML = "Decrease tickspeed by " + format(player.tick.tickspeedMultiplier) + "<br>Tickspeed : " + format(player.tick.tickspeed) + "<br>Cost : " + format(player.tick.cost)
     document.getElementById("g" + (i + 1)).innerHTML = "Generator " + (i+1) + "<br>Amount : " + format(g.amount) + "<br>bought: " + g.bought + "<br>mult: " + format(g.mult) + "x<br>cost: " + format(g.cost)
   }
 }
 
 function productionLoop(diff) {
   let ddiff = new Decimal(diff)
-  money = money.add(gens[0].amount.mul(gens[0].mult.mul(ddiff.div(tick.tickspeed))));
+  player.money = player.money.add(player.gens[0].amount.mul(player.gens[0].mult.mul(ddiff.div(player.tick.tickspeed))));
   for(let i = 1; i < maxGenerators; i++) {
-    gens[i - 1].amount = gens[i-1].amount.add(gens[i].amount.mul(gens[i].mult.mul(diff.div(tick.tickspeed))))
+    player.gens[i - 1].amount = player.gens[i-1].amount.add(player.gens[i].amount.mul(player.gens[i].mult.mul(diff.div(player.tick.tickspeed))))
   }
 }
 function mainLoop() {
-  if (auto) {
+  if (player.auto) {
     maxAll(0)
   }
-  if (money.gte(infin)) {
+  if (player.money.gte(player.infin)) {
     infinityReset()
-    if (infinities >= 1) {
-      document.getElementById("infinities").innerHTML = "Infinties : " + infinities
+    if (player.infinities >= 1) {
+      document.getElementById("infinities").innerHTML = "Infinties : " + player.infinities
     }
   }
   for (let i = 0; i < maxGenerators; i++) {
-    let b = new Decimal(gens[i].bought)
-    let ba = b.div(20).sub(new Decimal(0.4))
-    costMultiplier[i] = Decimal.max(ba, 2)
+    let b = new Decimal(player.gens[i].bought)
+    let ba = b.mul(player.costScaling.speed).sub(player.costScaling.start.mul(player.costScaling.speed))
+    player.costMultiplier[i] = Decimal.max(ba, 2)
   }
-  tick.tickspeedMultiplier = new Decimal(0.95).pow(infinities+1)
+  player.tick.tickspeedMultiplier = new Decimal(0.99).pow(player.infinities+1)
   var dte = new Decimal(Date.now())
-  var diff = dte.minus(lastUpdate).div(new Decimal(1000));
+  var diff = dte.minus(player.lastUpdate).div(new Decimal(1000));
   productionLoop(diff);
   updateGUI();
-  lastUpdate = new Decimal(Date.now())
+  player.lastUpdate = new Decimal(Date.now())
 }
 
+load()
+setInterval(save, 5000)
 setInterval(mainLoop, 50);
 
 updateGUI()
