@@ -1,24 +1,24 @@
 const maxGenerators = 16
 var player = {
-money: new Decimal(1),
-costScaling: {
-  start: new Decimal(75),
-  speed: new Decimal(2),
-  speedCost: new Decimal(1e125),
-  startCost: new Decimal(1e50),
-  costMult: new Decimal(1e75)
-},
-costMultiplier: [],
-lastUpdate: new Decimal(Date.now()),
-gens: [],
-infin: new Decimal(2).pow(1024),
-infinities: 0,
-auto: false,
-tick: {
-  tickspeed: new Decimal(1),
-  tickspeedMultiplier: new Decimal(0.95),
-  cost: new Decimal(1000)
-}
+  money: new Decimal(1),
+  costScaling: {
+    start: new Decimal(75),
+    speed: new Decimal(2),
+    speedCost: new Decimal(1e125),
+    startCost: new Decimal(1e50),
+    costMult: new Decimal(1e75)
+  },
+  costMultiplier: [],
+  lastUpdate: Date.now(),
+  gens: [],
+  infin: new Decimal(2).pow(1024),
+  infinities: 0,
+  auto: false,
+  tick: {
+    tickspeed: new Decimal(1),
+    tickspeedMultiplier: new Decimal(0.95),
+    cost: new Decimal(1000)
+  }
 }
 
 function decimalfy() {
@@ -78,7 +78,7 @@ function load() {
         tickspeedMultiplier: new Decimal(0.95),
         cost: new Decimal(1000)
       }
-      }
+    }
   } else {
     player = p
     decimalfy()
